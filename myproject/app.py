@@ -21,6 +21,13 @@ def register_resources(app):
 </body>
 </html>"""
 
+
+def register_resources(app):
+    @app.route('/')
+    def home():
+        print("Rendering index.html")  
+        return render_template('index.html')
+    
 if __name__ == '__main__':
     app = create_app()
     print("Starting Flask app...")  
