@@ -1,55 +1,27 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///usuarios.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+def create_app():
+    app = Flask(__name__)
+    register_resources(app)
+    return app
 
-# Modelo de Usuario
-class Usuario(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-
-# Crear base de datos dentro de un contexto de aplicación
-with app.app_context():
-    db.create_all()
-
-# Ruta principal (CRUD)
-@app.route('/')
-def index():
-    usuarios = Usuario.query.all()
-    return render_template('index.html', usuarios=usuarios)
-
-# Ruta para crear nuevos usuarios
-@app.route('/create', methods=['GET', 'POST'])
-def create():
-    if request.method == 'POST':
-        username = request.form['username']
-        nuevo_usuario = Usuario(username=username)
-        db.session.add(nuevo_usuario)
-        db.session.commit()
-        return redirect(url_for('index'))
-    return render_template('create.html')
-
-# Ruta para actualizar un usuario
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
-    usuario = Usuario.query.get(id)
-    if request.method == 'POST':
-        usuario.username = request.form['username']
-        db.session.commit()
-        return redirect(url_for('index'))
-    return render_template('update.html', usuario=usuario)
-
-# Ruta para eliminar un usuario
-@app.route('/delete/<int:id>')
-def delete(id):
-    usuario = Usuario.query.get(id)
-    if usuario:
-        db.session.delete(usuario)
-        db.session.commit()
-    return redirect(url_for('index'))
+def register_resources(app):
+    @app.route('/home')
+    def home():
+        print("Rendering index.html")  
+        return """<html
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Flask App</title>
+</head>
+<body>
+    <h1>Welcome to My Flask App</h1>
+    <p>This is a basic HTML page.</p>
+</body>
+</html>"""
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app = create_app()
+    print("Starting Flask app...")  
+    app.run('127.0.0.1', 5000)
