@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from config import Config
 from extensions import db
 from flask_migrate import Migrate
+from routers import main
 
 def create_app():
     app = Flask(__name__)
@@ -32,11 +33,9 @@ def register_resources(app):
 
 
 def register_resources(app):
-    @app.route('/', methods = ['GET'])
-    def home():
-        print("Rendering index.html")  
-        return render_template('index.html')
-    
+
+    app.register_blueprint(main)
+
 if __name__ == '__main__':
     app = create_app()
     print("Starting Flask app...")  
