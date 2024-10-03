@@ -4,11 +4,11 @@ from extensions import db
 
 def add_user_function():
     if request.method== "POST":
-        name=request.form['name']
+        name = request.form['name']
         email = request.form['email']
         password = request.form['password']
         user = User(
-            name =name, email=email, password = password
+            name = name, email=email, password = password
         )
 
         user.save()

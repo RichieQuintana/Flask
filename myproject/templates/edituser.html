@@ -21,8 +21,7 @@
                 <div class="card rounded-3">
                     <div class="card-body p-4 p-md-5"></div>
                     <h2 class="mb-4 pb-2 pd-md--0 mb-md-5 px-md-2 text-center">Edit User</h2>
-
-                    <form method="POST" action="/edituser">
+                    <form method="POST" action="/edituser/{{ user.id }}">
                         <div class="form-group">
                             <input type="text" id="name" name="name" class="form-control" placeholder={{user.name}}/> <br/>
 

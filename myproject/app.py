@@ -16,7 +16,7 @@ def register_extensions(app):
     migrate = Migrate(app,db)
 
 def register_resources(app):
-    @app.route('/home')
+    @app.route('/flask')
     def home():
         print("Rendering index.html")  
         return """<html
